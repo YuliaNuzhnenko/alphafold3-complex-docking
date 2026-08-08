@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alphafold3-complex-docking"
+version = "1.0.0"
+description = "Analysis toolkit for AlphaFold3 biomolecular complex predictions (Protein-DNA, Protein-RNA, Protein-Ligand)."
+readme = "README.md"
+authors = [{ name = "Yulia Nuzhnenko" }]
+license = { text = "MIT" }
+dependencies = ["numpy", "scipy", "biopython"]
