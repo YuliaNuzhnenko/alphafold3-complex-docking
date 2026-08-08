@@ -12,13 +12,19 @@ import numpy as np
 UNIPROT_ID = "P04637"
 PAE_URL = "https://alphafold.ebi.ac.uk/files/AF-P04637-F1-predicted_aligned_error_v6.json"
 
-def fetch_alphafold_pae_matrix(uniprot_id=UNIPROT_ID):
+def fetch_alphafold_pae_matrix(uniprot_id=UNIPROT_ID, local_fixture=None):
     """
-    Downloads real predicted aligned error (PAE) JSON matrix directly from AlphaFold EBI DB API.
+    Downloads real predicted aligned error (PAE) JSON matrix directly from AlphaFold EBI DB API,
+    or loads from a local JSON fixture if provided.
     """
-    req = urllib.request.Request(PAE_URL, headers={'User-Agent': 'Mozilla/5.0'})
-    with urllib.request.urlopen(req) as res:
-        data = json.loads(res.read().decode('utf-8'))[0]
+    if local_fixture and os.path.exists(local_fixture):
+        with open(local_fixture, 'r') as f:
+            data = json.load(f)[0]
+    else:
+        req = urllib.request.Request(PAE_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req) as res:
+            data = json.loads(res.read().decode('utf-8'))[0]
+            
     pae_matrix = np.array(data["predicted_aligned_error"], dtype=float)
     return pae_matrix
 
